@@ -1,0 +1,3 @@
+[submodule "CSSE220"]
+	path = CSSE220
+	url = https://github.com/RHIT-CSSE/csse220.git
