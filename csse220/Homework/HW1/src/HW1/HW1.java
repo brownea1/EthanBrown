@@ -21,7 +21,14 @@ public class HW1 {
 	 * addFraction(1,2,1,4) returns 0.75
 	 */
 	public static double addFraction(int num1, int den1, int num2, int den2) {
-		return -1;
+		double finalDen = den1*den2;
+		double finalNum = 0;
+		
+		num1 = num1*den2;
+		num2 = num2*den1;
+		finalNum = num1+num2;
+		
+		return finalNum/finalDen;		
 	}
 
 	/**
@@ -39,8 +46,16 @@ public class HW1 {
 	 * @return a score
 	 */
 	public static int footballScore(String input) {
+		int total = 0;
+		
+		for(int i=0; i<input.length(); i++) {
+			if(input.charAt(i) == 'T')
+				total += 7;
+			if(input.charAt(i) == 'F')
+				total += 3;
+		}
 
-		return -1;
+		return total;
 	}
 
 }// end class HW1

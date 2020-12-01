@@ -1,9 +1,12 @@
 package TwelveProblems;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.lang.Math;
 
 /**
  * Class: TwelveProblems
  * @author CSSE Faculty
+ * Ethan Brown
  * Purpose: This exercise is intended to give you practice in Java with various algorithms 
  *          learned in the previous course CSSE120
  */
@@ -23,7 +26,8 @@ public class TwelveProblems {
 	 * Google for Java square root to figure out how to do it 
 	 */
 	public static double distanceFromOrigin(double x, double y) {
-		return 0;
+		double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+		return dist;
 	}
 	
 	/**
@@ -56,7 +60,8 @@ public class TwelveProblems {
 	 * @return
 	 */
 	public static boolean secondDigit5(int input) {
-		return false;
+		input = input/10;
+		return (input%5 == 0 && input%2 != 0);
 	}
 	
 	/**
@@ -81,7 +86,11 @@ public class TwelveProblems {
 	 * Requires if statements, strings
 	 */
 	public static boolean endsWithUpperCaseLetter(String input) {
-		return true;
+		if(input.length() == 0)
+			return false;
+		
+		char letter = input.charAt(input.length()-1);
+		return Character.isUpperCase(letter);
 	}
 	
 	/**
@@ -103,7 +112,32 @@ public class TwelveProblems {
 	 * Requires: for loops
 	 */
 	public static double pow(int num, int power) {
-		return 0;
+		if(power == 0)
+			return 1;
+		
+		double result = num;
+		for(int i=1; i<abs(power); i++) {
+			result = result * num;
+		}
+		if(power < 0) {
+			return 1.0/result;
+		}
+		return result;
+	}
+	
+	/**
+	 * This is a helper function for pow
+	 * 
+	 * this function does the same thing as Math.abs, but I cannot use Math
+	 * in the function above
+	 * 
+	 * returns the absolute value of the input variable
+	 * 
+	 */
+	private static int abs(int x) {
+		if(x<0)
+			x = x*-1;
+		return x;
 	}
 	
 	/**
@@ -135,7 +169,11 @@ public class TwelveProblems {
 	 * Requires: for loops or while loops, strings
 	 */
 	public static int firstDifference(String one, String two) {
-		return -2;
+		for(int i=0; i<one.length(); i++) {
+			if(one.charAt(i) != two.charAt(i))
+				return i;
+		}
+		return -1;
 	}
 	
 	/**
@@ -156,7 +194,25 @@ public class TwelveProblems {
 	 * Requires: for loops, strings
 	 */
 	public static char mostCommonCharacter(String input) {
-		return '?';
+		char commonChar = '?';
+		char currentChar;
+		int count = 0;
+		int maxCount = 0;
+		
+		for(int i=0; i<input.length(); i++) {
+			count = 0;
+			currentChar = input.charAt(i);
+			for(int j=i; j<input.length(); j++) {
+				if(input.charAt(j) == currentChar)
+					count++;
+			}
+			if(count > maxCount) {
+				maxCount = count;
+				commonChar = currentChar;
+			}
+		}
+		
+		return commonChar;
 	}
 	
 	
@@ -174,7 +230,11 @@ public class TwelveProblems {
 	 * Don't forget about the modulus operator (%)
 	 */
 	public static int firstDivisibleBy77(int[] numbers) {
-		return 0;
+		for(int i=0; i<numbers.length; i++) {
+			if(numbers[i]%77 == 0)
+				return numbers[i];
+		}
+		return -1;
 	}
 	
 	
@@ -193,7 +253,17 @@ public class TwelveProblems {
 	 * Requires: arrays, for loops
 	 */
 	public static int[] powersOfTwo(int maxExponent) {
-		return null;
+		if(maxExponent < 0) {
+			int[] array = new int[0];
+			return array;
+		}
+		
+		int[] nums = new int[maxExponent+1];
+		for(int i=0; i<nums.length; i++) {
+			nums[i] = (int) Math.pow(2, i);
+		}
+		
+		return nums;
 	}
 	
 	/**
@@ -209,7 +279,11 @@ public class TwelveProblems {
 	 *   Requires: arrays, for loops
 	 */
 	public static int[] maxArray(int[] one, int[] two) {
-		return null;
+		for(int i=0; i<one.length; i++) {
+			if(one[i] < two[i])
+				one[i] = two[i];
+		}
+		return one;
 	}
 	
 	/**
@@ -226,7 +300,19 @@ public class TwelveProblems {
 	 *  Requires: arrays, nested for loops
 	 */
 	public static int timesOccur(int[] shorter, int[] longer) {
-		return -1;
+		int count = 0;
+		boolean flag = true;
+		
+		for(int i=0; i<longer.length; i++) {
+			flag = true;
+			for(int j=0; j<shorter.length; j++) {
+				if(longer[i] != shorter[j])
+					flag = false;
+			}
+			if(flag)
+				count++;
+		}
+		return count;
 	}
 	
 	/**
@@ -249,7 +335,14 @@ public class TwelveProblems {
 	 * 
 	 */
 	public static ArrayList<String> doubleDouble(ArrayList<String> input) {
-		return null;
+		ArrayList<String> output = new ArrayList<String>();
+		for(int i=0; i<input.size(); i++) {
+			output.add(input.get(i));
+			if(input.get(i).equals("double"))
+				output.add(input.get(i));
+		}
+		
+		return output;
 	}
 	
 	/**
@@ -265,7 +358,12 @@ public class TwelveProblems {
 	 *   threeCharacterStrings(["ab"]) returns []
 	 */
 	public static ArrayList<String> threeCharacterStrings(String input) {
-		return null;
+		ArrayList<String> output = new ArrayList<String>();
+		for(int i=0; i<input.length()-2; i++) {
+			String temp = input.substring(i, i+3);
+			output.add(temp);			
+		}
+		return output;
 	}
 	
 	
