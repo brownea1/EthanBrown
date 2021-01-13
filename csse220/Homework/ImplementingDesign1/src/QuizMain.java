@@ -7,8 +7,8 @@ import java.util.HashMap;
   * 
   */
 public class QuizMain {
-	
-	//TODO add instance variables here
+	private ArrayList<Question> questionList;
+	private ArrayList<Quiz> quizList;
 	
 	public QuizMain() {
 		// TODO In order to demonstrate functionality, please follow the TODOs below
@@ -16,6 +16,8 @@ public class QuizMain {
 		
 		
 		// TODO 1 Create five questions (can be silly/basic questions) use id 1,2,3,4,5 ...
+		questionList.add(new Question(1, "Question 1"));
+		
 	
 
 		// TODO 2 Create three or more quizzes  use id 1,2,3...

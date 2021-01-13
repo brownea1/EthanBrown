@@ -31,6 +31,18 @@ public class MapProblems {
 	 * @return duplicated nickanme or null
 	 */
 	public static String duplicateNicknames(String[] names, String[] nicknames) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		for(int i=0; i<names.length; i++) {
+			map.put(nicknames[i], names[i]);
+		}
+		if(map.size() == names.length)
+			return null;
+		
+		for(int i=0; i<names.length; i++) {
+			if(!map.containsValue(names[i])) {
+				return nicknames[i];
+			}
+		}
 		
 		return null;
 	}
@@ -54,6 +66,7 @@ public class MapProblems {
 	 * @return the score of the given hand
 	 */
 	public static int computeScore(String hand) {
+		
 
 		return 0;
 	}
@@ -73,8 +86,17 @@ public class MapProblems {
 	 * 
 	 */
 	public static HashMap<String,Integer> reverseMap(HashMap<Integer,String> input) {
+		ArrayList<Integer> newValues = new ArrayList<>();
+		HashMap<String, Integer> reversed = new HashMap<String, Integer>();
 		
-		return null;
+		for(Integer k: input.keySet()) {
+			newValues.add(k);
+		}
+		for(int i=0; i<newValues.size(); i++) {
+			reversed.put(input.get(newValues.get(i)), newValues.get(i));			
+		}
+		
+		return reversed;				
 	}
 	
 	/**
@@ -107,7 +129,8 @@ public class MapProblems {
 	 * @return true if there is a way to get from one city to another; false otherwise.
 	 */
 	public static boolean canTravelTo(HashMap<String,ArrayList<String>> cities, String startCity, String endCity) {
-
+		
+		
 		return false;
 	}
 

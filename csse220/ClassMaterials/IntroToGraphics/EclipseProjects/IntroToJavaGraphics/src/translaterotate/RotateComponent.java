@@ -22,14 +22,13 @@ public class RotateComponent extends JComponent {
 		
 		
 		
-		g2.translate(200,200);
+		g2.translate(this.getWidth()/2 - 100, this.getHeight()/2 - 75);
 		
 		//drawing a rect so you can see the inital
 		//pos of the face without rotation
 		g2.setColor(Color.PINK);
 		g2.drawRect(0, 0, 200, 150);
 		g2.setColor(Color.BLACK);
-
 		
 		// TODO 1: Play with rotation so you get a feel how it works
 		// 
@@ -41,11 +40,13 @@ public class RotateComponent extends JComponent {
 		// not with 0,0 as the upper left corner
 		// HINT 2: You may have to adjust the translate or the
 		// Pink rectangle too
+		g2.translate(100, 75);
 		double degreesToRotate = 30;
-		g2.rotate(Math.toRadians(degreesToRotate));
+		g2.rotate(this.getWidth()/100);
 
 		// draws a face, with upper left hand corner 0 0
 		// you need to edit this code for TODO2
+		g2.translate(-100, -75);
 		g2.drawRect(0, 0, 200, 150);
 		g2.drawRect(20, 20, 50, 50);
 		g2.drawRect(130, 20, 50, 50);

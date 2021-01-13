@@ -2,11 +2,21 @@ package teamGradebook;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * The TeamGradebook has a list of all the students and
+ * teams. The TeamGradebook also handles all the 
+ * responsibilities detailed in the TeamGradebook
+ * assignment description. TeamGradebook can be
+ * ran in the console for testing and usage
+ * 
+ * @author brownea1
+ *
+ */
 public class TeamGradebook {
 
 	private ArrayList<Student> students;
 	private ArrayList<Team> teams;
+	private static final String ERROR = "ERROR: something went wrong"; 
 	
 	/**
 	 * Constructor - initializes the fields of TeamGradebook
@@ -14,7 +24,8 @@ public class TeamGradebook {
 	 * You'll want to be sure you initialize students and teams here.
 	 */
 	public TeamGradebook() {
-		//TODO: add initialization code
+		students = new ArrayList<Student>();
+		teams = new ArrayList<Team>();
 	}
 	
 	/**
@@ -28,11 +39,12 @@ public class TeamGradebook {
 	 * @return "ok" if successful
 	 */
 	private String handleAddStudent(String studentName) {
-		// HINT
-		// first create a new student object with the given name
-		// then add it to the students list in the gradebook
-		// then return "ok"
-		return null;
+		if(getStudentByName(studentName) != null)
+			return ERROR;
+		
+		Student s = new Student(studentName);
+		students.add(s);
+		return "ok";
 	}
 
 	/**
@@ -54,8 +66,11 @@ public class TeamGradebook {
 	 * @return
 	 */
 	private String handleAddAbsence(String studentName) {
-		
-		return null;
+		Student s = getStudentByName(studentName);
+		if(s == null)
+			return ERROR;
+		s.addAbsence();
+		return "ok";
 	}
 
 	/**
@@ -73,7 +88,14 @@ public class TeamGradebook {
 	 * @return
 	 */
 	private String handleGetAbsences(String studentName) {
-		return null;
+		Student s = getStudentByName(studentName);
+		int numAbsences;
+		if(s == null)
+			return ERROR;
+		
+		numAbsences = s.getAbsences();
+		String strAbs = Integer.toString(numAbsences);
+		return strAbs;
 	}
 
 	
@@ -92,15 +114,20 @@ public class TeamGradebook {
 	 * @return "ok" if success
 	 */
 	private String handleAddTeam(String teamName, ArrayList<String> memberNames) {
+		ArrayList<Student> studentList = new ArrayList<Student>();
 		
-		// HINT: you'll want to pass Team an array of Students,
-		// not an array of student names
+		for(int i=0; i<memberNames.size(); i++) {
+			String currName = memberNames.get(i);
+			if(getStudentByName(currName) == null){
+				handleAddStudent(currName);
+			}
+			Student temp = getStudentByName(currName);
+			studentList.add(temp);
+		}
+		Team t = new Team(teamName, studentList);
+		teams.add(t);
 		
-		// BONUS HINT: you'll probably want to implement the getStudentByNameMethod
-		// and use it in this function
-		
-		//TODO: Your code here
-		return null;
+		return "ok";
 	}
 
 	/**
@@ -113,8 +140,11 @@ public class TeamGradebook {
 	 * @return student object with the name or null
 	 */
 	public  Student getStudentByName(String name) {
-
-		//TODO: Your code here		
+		for(int i=0; i<students.size(); i++) {
+			if(students.get(i).getName().equals(name))
+				return students.get(i);
+		}
+			
 		return null;
 	}
 
@@ -128,8 +158,23 @@ public class TeamGradebook {
 	 * @return "ok" if successful
 	 */
 	private String handleAddGrade(String teamName, double grade) {
-		//TODO: Your code here
-		return null;
+		Team currTeam = null;
+		for(int i=0; i<teams.size(); i++) {
+			if(teams.get(i).getTeamName().equals(teamName))
+				currTeam = teams.get(i);
+		}
+		
+		if(currTeam == null)
+			return ERROR;
+		
+		ArrayList<Student> currStudents = currTeam.getTeamMembers();
+		
+		for(int i=0; i<currStudents.size(); i++) {
+			currStudents.get(i).addGrade(grade);
+			currTeam.addTeamGrade(grade);
+		}
+		
+		return "ok";
 	}
 	
 	
@@ -145,14 +190,19 @@ public class TeamGradebook {
 	 * @return average grade as string, rounded to nearest whole number
 	 */
 	private String handleGetAverage(String studentName) {
-		//TODO: Your code here
-		return null;
+		Student s = getStudentByName(studentName);
+		if(s == null)
+			return ERROR;
+		
+		long avg = Math.round(s.getAverageGrade());
+
+		return Long.toString(avg);
 	}
 	
 	/**
 	 * Returns the team name with the best average on all grades for that team
 	 * 
-	 * PAIR ASSIGNMENT
+	 * PAIR ASSIGNMENT - Did not have a partner
 	 * 
 	 * THIS PART OF THE ASSIGNMENT MAY BE done in pairs with another student.
 	 * Be sure to note who you paired with in a comment.  You don't have to
@@ -177,8 +227,20 @@ public class TeamGradebook {
 	 * @return the name of the team with the best overall average
 	 */
 	private String handleGetBestTeam() {
-		//TODO: Your code here
-		return null;
+		Team bestTeam = null;
+		double bestGrade = 0;
+		for(int i=0; i<teams.size(); i++) {
+			Team currTeam = teams.get(i);
+			if(currTeam.getTeamGrade() >= bestGrade) {
+				bestTeam = currTeam;
+				bestGrade = currTeam.getTeamGrade();
+			}
+		}
+		if(bestTeam == null)
+			return ERROR;
+		
+		
+		return bestTeam.getTeamName();
 	}
 	
 	/**

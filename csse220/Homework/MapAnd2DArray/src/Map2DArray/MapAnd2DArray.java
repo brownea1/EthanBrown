@@ -1,6 +1,7 @@
 package Map2DArray;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.lang.Math;
 
 /**
  * Class: MapAnd2DArrayHomework
@@ -29,7 +30,25 @@ public class MapAnd2DArray {
 	 * 
 	 */
 	public static char mostCommonCharacter(String input) {
-		return 'Q';
+		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+		int largestCount = 0;
+		char common = 'x';
+		for(int i=0; i<input.length(); i++) {
+			Character letter = new Character(input.charAt(i));
+			if(!map.containsKey(letter)) {
+				map.put(letter, 1);
+			}
+			else {
+				int count = map.get(letter);
+				map.put(letter, count+1);
+			}
+			if(map.get(letter) > largestCount) {
+				largestCount = map.get(letter);
+				common = letter;
+			}
+		}
+		
+		return common;
 	} // mostCommonCharacter
 	
 	/**
@@ -49,8 +68,16 @@ public class MapAnd2DArray {
 	 * @return a copy of the hashmap with keys and values exchanged
 	 */
 	public static HashMap<String,ArrayList<Integer>> reverseHashmap(HashMap<Integer,String> initialMap) {
+		HashMap<String,ArrayList<Integer>> map = new HashMap<String,ArrayList<Integer>>();
+		for(Integer key: initialMap.keySet()) {
+			String currentVal = initialMap.get(key);
+			if(!map.containsKey(currentVal)) {
+				map.put(currentVal, new ArrayList<Integer>());
+			}
+			map.get(currentVal).add(key);
+		}
 		
-		return null;
+		return map;
 	} // reverseHashmap
 	
 	/**
@@ -103,9 +130,19 @@ public class MapAnd2DArray {
 	 * @return city that had a temperature drop
 	 */
 	public static String getTemperatureDropCity(int[] temps, String[] tempCity) {
-		return "";
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(int i=0; i<temps.length; i++) {
+			if(map.containsKey(tempCity[i])) {
+				if(map.get(tempCity[i]) > temps[i])
+					return tempCity[i];
+			}
+			map.put(tempCity[i], temps[i]);
+		}
+		
+		
+		return null;
 	} // getTemperatureDropCity
-	
 	
 	/**
 	 * In a particular school (not Rose-Hulman) each course can only have 1 pre-requisite course.
@@ -134,7 +171,19 @@ public class MapAnd2DArray {
 	 * @return number of courses before you can take given course, or -1 if it is in a pre-req loop
 	 */
 	public static int getNumberOfCoursesToTake(HashMap<String,String> courseMap, String course) {
-		return -2;
+		ArrayList<String> coursesTaken = new ArrayList<>();
+		int count = 0;
+		String currCourse = course;
+		coursesTaken.add(currCourse);
+		
+		while(!courseMap.get(currCourse).equals("")) {
+			if(coursesTaken.contains(courseMap.get(currCourse)))
+				return -1;
+			count++;
+			currCourse = courseMap.get(currCourse);
+			coursesTaken.add(currCourse);
+		}
+		return count;
 	} // getNumberOfCoursesToTake
 	
 	/**
@@ -161,9 +210,14 @@ public class MapAnd2DArray {
 	 * @param data input array
 	 * @return true if it is diagonal, false otherwise
 	 */
-	public static boolean isDiagonal(int[][] data) {
-		
-		return false;
+	public static boolean isDiagonal(int[][] data) {	
+		for(int i=0; i<data.length; i++)
+			for(int j=0; j<data[i].length; j++) {
+				if(i != j && data[i][j] != 0) {
+					return false;
+				}
+			}
+		return true;
 	} // isDiagonal
 	
 	/**
@@ -201,8 +255,25 @@ public class MapAnd2DArray {
 	 * @return the length of the longest sequence
 	 */
 	public static int longestRepeatSequence(char[][] data) {
+		int currentLongest = 0;
+		int count = 1;
+		char prevChar = (char) (data[0][0]+1), currentChar;
 		
-		return 0;
+		for(int i=0; i<data.length; i++) { 
+			for(int j=0; j<data[i].length; j++) {
+				currentChar = data[i][j];
+				if(currentChar == prevChar) {
+					count++;
+					if(count > currentLongest)
+						currentLongest = count;
+				}
+				else {
+					count = 1;
+				}
+				prevChar = currentChar;					
+			}
+		}
+		return currentLongest;
 	} // longestRepeatSequence
 	
 	/**
@@ -220,10 +291,13 @@ public class MapAnd2DArray {
 	 * @return a single string made of all the characters in each column.
 	 */
 	public static String stringFromColumns(char[][] data) {
-		return "replace this";
+		String str = "";
+		for(int j=0; j<data[0].length; j++)
+			for(int i=0; i<data.length; i++)
+				str += data[i][j];
+		
+		return str;
 	} // stringFromColumns
-	
-	
 	
 	/**
 	 * Given A specific starting position and distance
@@ -272,8 +346,17 @@ public class MapAnd2DArray {
 	 * @return new 10x10 char array with correct squares marked
 	 */
 	public static char[][] distanceArray(int row, int col, int distance) {
+		char[][] array = new char[10][10];
+		for(int i=0; i<array.length; i++) {
+			for(int j=0; j<array[i].length; j++) {
+				if((Math.abs(i-row) + Math.abs(j-col)) <= distance)
+					array[i][j] = 'x';
+				else
+					array[i][j] = '.';
+			}
+		}
 		
-		return null;
+		return array;
 	} // distanceArray
 	
 	
@@ -322,6 +405,54 @@ public class MapAnd2DArray {
 	 * @return height where the ball stops
 	 */
 	public static int ballRestElevation(int[][] map) {
-		return 0;
+		int i=1, j=1;
+		int nextI=1, nextJ=1;
+		int north=-1, south=-1, east=-1, west=-1, current=map[1][1];
+		boolean flag = true;
+		
+		while(flag) {
+			flag = false;
+			i = nextI;
+			j = nextJ;
+			
+			if(i>0) {
+				north = map[i-1][j];
+				if(north < current) {
+					flag = true;
+					current = north;
+					nextI = i-1;
+					nextJ = j;
+				}
+			}
+			if(i<map.length-1) {
+				south = map[i+1][j];
+				if(south < current) {
+					flag = true;
+					current = south;
+					nextI = i+1;
+					nextJ = j;
+				}
+			}
+			if(j<map[0].length-1) {
+				east = map[i][j+1];
+				if(east < current) {
+					flag = true;
+					current = east;
+					nextI = i;
+					nextJ = j+1;
+				}
+			}
+			if(j>0) {
+				west = map[i][j-1];
+				if(west < current) {
+					flag = true;
+					current = west;
+					nextI = i;
+					nextJ = j-1;
+				}
+			}			
+		}
+		
+		return map[nextI][nextJ];
 	} // ballRestElevation
 }

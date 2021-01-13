@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
   * 
   * TODO (1) Implement this class and (2) Document using Javadoc comments as well as regular comments
@@ -8,5 +10,11 @@
   * 
  */
 public class Quiz {
+	private int id;
+	private ArrayList<Question> questions;
+	
+	public Quiz(int id) {
+		this.id = id;
+	}
 
 }
