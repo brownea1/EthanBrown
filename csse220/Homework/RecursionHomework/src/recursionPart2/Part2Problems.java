@@ -1,5 +1,12 @@
 package recursionPart2;
 
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Class: Part2Problems
  * @author CSSE Faculty
@@ -33,8 +40,30 @@ public class Part2Problems {
 	 */
 
 	public static boolean findIn(int[] input, int[] toFind) {
-		return false;
+		if(toFind.length == 0)
+			return true;
+		if(input.length == 0)
+			return false;
+		
+		int[] newInput = new int[input.length - 1];
+		copyArray(input, newInput, 1, input.length);
+		
+		if(input[0] != toFind[0])
+			return findIn(newInput, toFind);
+		
+		int[] newToFind = new int[toFind.length - 1];
+		copyArray(toFind, newToFind, 1, toFind.length);
+		
+		return findIn(newInput, newToFind);
 	}
+	private static void copyArray(int[] input, int[] output, int start, int end) {
+		if(start == end)
+			return;
+		
+		output[start-1] = input[start];
+		copyArray(input, output, start+1, end);
+	}
+	
 
 	/**
 	 * For this problem, you should use recursion to find the 3rd capital letter in
@@ -54,9 +83,21 @@ public class Part2Problems {
 	 *         exist in the input String
 	 */
 	public static int findThirdCapital(String input) {
-		return -10;
+		return xthCapital(input, 0, -1);
 	}
-
+	
+	private static int xthCapital(String input, int x, int i) {
+		if(x == 3)
+			return i;
+		if(i == input.length()-1)
+			return -1;
+		
+		i++;
+		if(Character.isUpperCase(input.charAt(i)))
+			x++;
+		return xthCapital(input, x, i);				
+	}
+	
 	/**
 	 * For this problem, you are given an array of integers. You are to use
 	 * recursion to find the subsequence of elements that yields the highest sum. A
@@ -91,8 +132,51 @@ public class Part2Problems {
 	 * @param input - The array of integers
 	 * @return the highest possible sum of any subsequence
 	 */
+	
+	/**
+	 * Note from Ethan
+	 * For this method, I will use the Dimension class
+	 * width, height
+	 * start, end
+	 */
 	public static int highestSubsequenceSum(int[] input) {
-
-		return -1;
+		HashMap<Dimension, Integer> map = new HashMap<Dimension, Integer>();
+		Dimension dim = new Dimension(0, input.length-1);
+		int[] largestValue = new int[1];
+		largestValue[0] = input[0];
+		hssHelper(input, dim, map, largestValue);
+		return largestValue[0];
 	}
+	
+	private static void hssHelper(int[] input, Dimension dim, HashMap<Dimension, Integer> map, int[] largestValue) {
+		if(dim.getWidth() == dim.getHeight())
+			return;
+		
+		getSum(input, dim, map, largestValue);
+		
+		Dimension next = new Dimension((int) dim.getWidth() + 1, (int) dim.getHeight());
+		hssHelper(input, next, map, largestValue);
+	}
+	
+	private static int getSum(int[] input, Dimension dim, HashMap<Dimension, Integer> map, int[] largestValue) {
+		if(map.containsKey(dim))
+			return map.get(dim);
+		
+		int start = (int) dim.getWidth();
+		int end = (int) dim.getHeight();
+		
+		if(end == start)
+			return input[end];
+		
+		Dimension next = new Dimension(start, end-1);
+		int num = input[end] + getSum(input, next, map, largestValue);
+		map.put(dim, num);
+		
+		largestValue[0] = largestValue[0] < num ? num : largestValue[0];
+		return map.get(dim);
+	}
+	
+	
+	
+	
 }

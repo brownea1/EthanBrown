@@ -1,20 +1,23 @@
 Reflection Questions:
 
 1. Compare your original firstDraftUML with the final finalUML. What is the biggest difference between the two designs?
-
+	The biggest difference is that in my original design, I game QuizTest an ArrayList of Quizzes, but in my final, I did not give QuizTest and Quiz that relationship
+	This also means that my orginal design did not take input for the getOvrallScore method
 
 
 2. What did you have to change your original firstDraftUML to the final finalUML and why did you have to change it? 
    If you did not have to make changes, explain how you made your decisions in designing the original firstDraftUML.
-
+   The main thing I had to change was that in my Original I gave QuizTest a list of Quizzes, but I removed that because I would have to update each QuizTest's
+   Quiz ArrayList data each time I added a Quiz, and that would work fine, but data would be duplicated, and I prefer having the ArrayList of Quizzes be the
+   parameter for the getOverallScore method
 
 
 3. Did you re-use your code from ImplementingDesign1? 
    If you did how much of the code that you copied from ImplementingDesign1 did you have to change? 
    If not have to change code, then please explain why.
-
+   I did not change the code for Question and Quiz because those have the exact same implimentatoin
 
 
 4. Select one or more specific design principles and discuss how they relate to the your experience in designing and implementing the code for this assignment.
-
-
+	2.b - This relates to my designing and implementing the code because I made sure that QuizTest was intelligent and able to perform it's own
+	actions. I wanted to make sure that QuizTest did not have to rely on as little classes as possible to be able to function

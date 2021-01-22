@@ -2,6 +2,7 @@ package ballStrikeCounter;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,8 +25,14 @@ public class Tracker {
 
 		frame.add(label, BorderLayout.CENTER);
 		frame.add(panel, BorderLayout.SOUTH);
+		//frame.setLayout(null);
 		
 		// TODO: Add buttons and listeners to make things work.
+		JButton ballButton = new JButton("Add ball");
+		JButton strikeButton = new JButton("Add strike");
+		
+		ballButton.setBounds(20, 0, 20, 10);
+		frame.add(ballButton);
 		
 
 		// The following line is given to show you how to use the given method:

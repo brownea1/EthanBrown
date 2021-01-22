@@ -1,13 +1,14 @@
 import java.util.ArrayList;
-
 /**
-  * 
-  * TODO (1) Implement this class and (2) Document using Javadoc comments as well as regular comments
-  * 
-  * If you are running a recent version of Eclipse, you can command Eclipse to generate the Javadoc .html file
-  * by using the command from the menu bar: Project | Generate Javadoc...
-  *
-  * 
+ * Class: Quiz
+ * @author brownea1
+ *
+ * Purpose: To hold a quiz's id and a list of quiz questions (id, questions)
+ * Example:
+ * 		Quiz exam = new Quiz(2);
+ * 
+ * A quiz is distinguished by it's id. Each quiz has a list
+ * of questions that will be on the quiz. =
  */
 public class Quiz {
 	private int id;
@@ -15,6 +16,19 @@ public class Quiz {
 	
 	public Quiz(int id) {
 		this.id = id;
+		questions = new ArrayList<Question>();
+	}
+	
+	public void addQuestion(Question q) {
+		questions.add(q);
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public ArrayList<Question> getQuestions(){
+		return questions;
 	}
 
 }

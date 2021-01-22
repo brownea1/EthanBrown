@@ -1,16 +1,19 @@
 package implementingDP2;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
  * This class simulates the quiz creation and updating along with testing scenario
  * 
- * @author YOUR_USERNAME
+ * @author brownea1
  *
  */
 public class QuizSimulatorMain {
 
-	
-	//TODO add instance variables
+	private HashMap<Integer, Question> questions = new HashMap<Integer, Question>();
+	private HashMap<Integer, Quiz> quizzes = new HashMap<Integer, Quiz>();
+	private HashMap<Integer, QuizTest> quizTesters = new HashMap<Integer, QuizTest>();
 	
 	//Used to remind user of commands available
 	public final static String HELP_STRING = "create-question [id] [answer] [prompt]\n" 
@@ -112,7 +115,7 @@ public class QuizSimulatorMain {
 	 * @param prompt
 	 */
 	public void handleCreateQuestion(int id, boolean answer, String prompt) {
-		//TODO complete this method
+		questions.put(id, new Question(id, answer, prompt));
 	}
 	/**
 	 * Get back the String prompt from a question with id questionId
@@ -121,8 +124,7 @@ public class QuizSimulatorMain {
 	 * @return
 	 */
 	public String handleGetQuestionPrompt(int questionId) {
-		//TODO complete this method
-		return null;
+		return questions.get(questionId).getPrompt();
 	}
 	/**
 	 * Create a quiz with corresponding id, initially it should have no questions
@@ -130,7 +132,7 @@ public class QuizSimulatorMain {
 	 * @param id
 	 */
 	public void handleCreateQuiz(int id) {
-		//TODO complete this method
+		quizzes.put(id,  new Quiz(id));
 	}
 	/**
 	 * Adds an already created question with id=questionId to an already created quiz with id=quizId
@@ -139,7 +141,9 @@ public class QuizSimulatorMain {
 	 * @param quizId
 	 */
 	public void handleAddQuestionToQuiz(int questionId, int quizId ) {
-		//TODO complete this method
+		Question temp = questions.get(questionId);
+		Quiz tempQuiz = quizzes.get(quizId);
+		tempQuiz.addQuestion(temp);
 	}
 	/**
 	 * Updates a question with questionId  with a new answer and prompt
@@ -149,7 +153,9 @@ public class QuizSimulatorMain {
 	 * @param prompt
 	 */
 	public void handleUpdateQuestion(int questionId, boolean answer, String prompt) {
-		//TODO complete this method
+		Question q = questions.get(questionId);
+		q.setAnswer(answer);
+		q.setPrompt(prompt);
 	}
 	/**
 	 * 
@@ -161,8 +167,11 @@ public class QuizSimulatorMain {
 	 * @param quizId
 	 */
 	public String handleGetQuizString(int quizId) {
-		//TODO complete this method
-		return null;
+		Quiz temp = quizzes.get(quizId);
+		String str = "Quiz [" + Integer.toString(quizId) + "]\n";
+		str += temp.toString();
+		
+		return str;
 	}
 	/**
 	 * Creates a new QuizTester with a provide id and targetString used to answer questions
@@ -171,7 +180,7 @@ public class QuizSimulatorMain {
 	 * @param targetString
 	 */
 	public void handleCreateQuizTester(int id, String targetString) {
-		//TODO complete this method
+		quizTesters.put(id,  new QuizTest(id, targetString));
 	}
 	/**
 	 * Returns a double with the percentage a given QuizTester with id quizTesterId
@@ -182,8 +191,10 @@ public class QuizSimulatorMain {
 	 * @return
 	 */
 	public double handleGetQuizTesterScoreOnQuiz( int quizTesterId, int quizId) {
-		//TODO complete this method
-		return -1;
+		QuizTest qt = quizTesters.get(quizTesterId);
+		Quiz qTemp = quizzes.get(quizId);
+		
+		return qt.getQuizScore(qTemp);
 	}
 	/**
 	 * Take an id for a QuizTester and then finds the average score of that QuizTester
@@ -193,8 +204,12 @@ public class QuizSimulatorMain {
 	 * @return
 	 */
 	public double handleGetQuizTesterOverallScore( int quizTesterId) {
-		//TODO complete this method
-		return -1;
+		ArrayList<Quiz> qTemp = new ArrayList<Quiz>();
+		
+		for(int key: quizzes.keySet())
+			qTemp.add(quizzes.get(key));
+		
+		return quizTesters.get(quizTesterId).getOverallScore(qTemp);
 	}
 
 	

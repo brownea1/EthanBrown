@@ -5,17 +5,21 @@ Reflection Questions:
 
 1.B Explain why or why not? (2-3 sentences)
 	Because the Question class does not just have a String field and nothing else.
-	The question class also has to store an ID, which a Java String cannot normally do
+	The question class also has to store an ID, which a Java String cannot normally do.
 
 
 2.A. What data type did you use to represent the 1-to-many relationship between QuizMain and Question? (provide the type declaration)
-	
+	ArrayList<Question> questionList;	
 
 
 2.B. What is another data type could you have used? (provide the type declaration) 
-
+	HashMap<Integer, Question> questionMap;
 
 
 2.C. Would that have made your implementation easier or harder to implement? Explain why? (2-3 sentences)
+	Looking back, I think using a HashMap would have made my implementation easier.
+	This is because I would have been able to use the Id as the key, and would not have
+	had to make a search algorithm for finding the Question that is associated with the Id.
+	This also would have ensured that there were no duplicate Ids.
 
 
