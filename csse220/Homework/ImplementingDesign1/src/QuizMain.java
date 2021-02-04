@@ -45,8 +45,6 @@ public class QuizMain {
 		q3.addQuestion(questionList.get(4));
 		quizList.add(q3);
 
-		
-		
 	}
 	
 	

@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import simulationObjects.Particle;
 import simulationObjects.Person;
 import simulationObjects.TagPlayer;
+import simulationObjects.ChargedParticle;
 /**
  * This class DOES have to be modified in Part 3 and 4.
  * 
@@ -59,12 +60,12 @@ public class SimulationComponent extends JComponent {
 	//YOU DO NOT HAVE TO MODIFY CODE ABOVE HERE //
 	//////////////////////////////////////////////
 	
-	
-	
-	
-	
+		
 	//TODO Part 3 add method for adding ChargedParticles, see addParticles() for an example
-	
+	public void addChargedParticles(int count) {
+		for(int i=0; i < count; i++)
+			particles.add( new ChargedParticle( rand.nextInt(getWidth()), rand.nextInt(getHeight())));
+	}
 
 	
 	/** 
@@ -78,7 +79,9 @@ public class SimulationComponent extends JComponent {
 		// TODO Part 4 Complete this method
 		// add the parameter "count" number of people and 1 infected person
 		// should add each Person to the ArrayList this.persons defined at the top
-		
+		for(int i = 0; i < count; i++)
+			persons.add(new Person(rand.nextInt(getWidth()), rand.nextInt(getHeight()), 0));
+		persons.add(new Person(rand.nextInt(getWidth()), rand.nextInt(getHeight()), 1));
 	}
 	
 	
